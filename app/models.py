@@ -19,7 +19,8 @@ class Document(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     project_id: Mapped[int] = mapped_column(ForeignKey("projects.id"))
     title: Mapped[str] = mapped_column(String(255))
-    content: Mapped[str] = mapped_column(Text)  # texto extraído/normalizado
+    content: Mapped[str] = mapped_column(Text)
+    created_at: Mapped[str] = mapped_column(DateTime(timezone=True), server_default=func.now()) 
 
 class Analysis(Base):
     __tablename__ = "analyses"
@@ -27,4 +28,4 @@ class Analysis(Base):
     project_id: Mapped[int] = mapped_column(ForeignKey("projects.id"))
     created_at: Mapped[str] = mapped_column(DateTime(timezone=True), server_default=func.now())
     status: Mapped[str] = mapped_column(String(50), default="completed")
-    summary: Mapped[str] = mapped_column(Text)  # resumo do resultado (stub)
+    summary: Mapped[str] = mapped_column(Text)
