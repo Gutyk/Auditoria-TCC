@@ -1,0 +1,38 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: tcc_auditoria
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  api:
+    # constrói a partir da RAIZ (onde estão Dockerfile, requirements.txt e app/)
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file: .env
+    depends_on:
+      - db
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./:/app  # hot-reload em dev
+
+  front:
+      build: ./frontend
+      environment:
+        API_BASE_URL: "http://api:8000"
+      ports:
+        - "8501:8501"
+      depends_on:
+        - api
+      volumes:
+        - ./frontend:/app
+
+volumes:
+  pgdata:
