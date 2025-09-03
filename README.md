@@ -3,6 +3,7 @@
 Protótipo funcional de alta fidelidade para auditoria de conformidade em sistemas corporativos com uso de Inteligência Artificial.  
 Foco inicial: revogação de acessos e aderência à LGPD.
 Link video mostrando projeto: https://www.youtube.com/watch?v=PMpv7b5ozpk
+
 ---
 
 ## Funcionalidades
