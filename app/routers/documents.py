@@ -135,3 +135,13 @@ def upload_document(
     db.commit()
     db.refresh(d)
     return d
+
+
+@router.delete("/{document_id}")
+def delete_document(document_id: int, db: Session = Depends(get_db)):
+    doc = db.query(Document).filter(Document.id == document_id).first()
+    if not doc:
+        raise HTTPException(status_code=404, detail="Documento não encontrado")
+    db.delete(doc)
+    db.commit()
+    return {"message": f"Documento {document_id} deletado com sucesso"}

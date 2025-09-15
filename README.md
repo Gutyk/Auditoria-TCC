@@ -14,6 +14,12 @@ API mínima (MVP) para o projeto de auditoria e conformidade com IA.
 docker compose up --build
 ```
 
+caso não de build
+``` bash
+docker compose down -v
+docker compose up --build
+```
+
 A API ficará em http://localhost:8000/docs
 
 Usuário de teste: `admin@local` / senha: `admin`
