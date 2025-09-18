@@ -1,0 +1,86 @@
+# =========================
+# Auditoria-TCC .gitignore
+# =========================
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+.eggs/
+dist/
+build/
+pip-wheel-metadata/
+*.log
+
+# Virtualenv
+.venv/
+venv/
+ENV/
+env/
+.venv*/
+venv*/
+
+# Jupyter / IPython
+.ipynb_checkpoints/
+*.ipynb
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Streamlit
+.streamlit/
+
+# FastAPI / Uvicorn / alembic
+alembic/versions/*.pyc
+alembic/versions/*.pyo
+alembic/versions/__pycache__/
+*.db
+
+# PostgreSQL / SQLite locais
+*.db
+*.sqlite3
+*.sqlite
+postgres-data/
+db_data/
+
+# Docker
+*.pid
+*.seed
+docker-compose.override.yml
+.docker/
+*.bak
+
+# Logs
+*.log
+logs/
+*.out
+*.err
+
+# Configs sensíveis
+.env
+.env.*
+*.secret
+*.key
+*.pem
+*.crt
+*.pub
+
+# Relatórios / Saídas temporárias
+*.pdf
+*.docx
+*.xlsx
+*.csv
+*.json
+output/
+tmp/
+temp/
+.env
+.env
+.env
+.env
