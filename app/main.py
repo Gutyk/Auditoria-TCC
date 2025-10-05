@@ -2,8 +2,20 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI
 from .routers import auth, projects, documents, analyses, reports
 from .db import init_db
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = FastAPI(title="TCC Auditoria & Conformidade — API")
+
+
+@app.get("/health")
+def health():
+    return {"status": "ok"}
+
+@app.get("/")
+def root():
+    return {"message": "FastAPI on Elastic Beanstalk!"}
 
 app.add_middleware(
     CORSMiddleware,
@@ -18,6 +30,7 @@ app.add_middleware(
 def on_startup():
     init_db()
     auth.seed_user()
+    
 
 app.include_router(auth.router, prefix="/auth", tags=["auth"])
 app.include_router(projects.router, prefix="/projects", tags=["projects"])

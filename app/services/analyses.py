@@ -1,4 +1,4 @@
-# backend/app/services/analysis.py
+    # backend/app/services/analysis.py
 import os, re
 from typing import List, Dict, Any, Optional
 
@@ -25,6 +25,20 @@ SEVERITY_WEIGHT = {
     "lgpd_direitos": 2,
     "lgpd_governanca": 1,
     "incidente": 3,
+}
+
+RECOMMENDATIONS = {
+    1 : ["Definir base legal e registrar evidências de consentimento quando aplicável."],
+    
+    2 : ["Definir base legal e registrar evidências de consentimento quando aplicável.",
+            "Endereçar processo de revogação de acessos no desligamento (offboarding).",
+            "Estabelecer política de retenção e descarte de dados."],
+    3 :  [
+            "Definir base legal e registrar evidências de consentimento quando aplicável.",
+            "Endereçar processo de revogação de acessos no desligamento (offboarding).",
+            "Estabelecer política de retenção e descarte de dados.",
+            "Aplicar controles de segurança: criptografia, logs e segregação de funções.",
+        ] 
 }
 
 def detect_pii(text: str) -> Dict[str, List[str]]:
@@ -89,6 +103,9 @@ Responda em JSON com as chaves: resumo, achados, severidade, recomendacoes (máx
     except Exception:
         # Em caso de erro (timeout/limite/conexão), mantém o resultado local
         return None
+    
+def rec_by_severity(severity) -> Dict[int, List[str]]:
+    return RECOMMENDATIONS[3] if severity == "alto" else RECOMMENDATIONS[2] if severity == "médio" else RECOMMENDATIONS[1]
 
 def analyze_document(doc: Dict[str, Any]) -> Dict[str, Any]:
     title = doc.get("title", f"doc-{doc.get('id')}")
@@ -103,12 +120,7 @@ def analyze_document(doc: Dict[str, Any]) -> Dict[str, Any]:
             "palavras_chave": hits,
         },
         "severidade": severity,
-        "recomendacoes": [
-            "Definir base legal e registrar evidências de consentimento quando aplicável.",
-            "Endereçar processo de revogação de acessos no desligamento (offboarding).",
-            "Estabelecer política de retenção e descarte de dados.",
-            "Aplicar controles de segurança: criptografia, logs e segregação de funções.",
-        ],
+        "recomendacoes": rec_by_severity(severity)
     }
     refined = refine_with_llm(title, content, prelim)
     return refined or prelim
