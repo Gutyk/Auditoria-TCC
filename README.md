@@ -1,70 +1,58 @@
-# Auditoria & Conformidade — Protótipo TCC
+# Auditoria e Conformidade com IA
 
-Protótipo funcional de alta fidelidade para auditoria de conformidade em sistemas corporativos com uso de Inteligência Artificial.  
-Foco inicial: revogação de acessos e aderência à LGPD.
-Link video mostrando projeto: https://www.youtube.com/watch?v=PMpv7b5ozpk
+Protótipo desenvolvido como Trabalho de Conclusão de Curso em Sistemas de Informação na FIAP. O projeto explora como a análise de documentos pode apoiar auditorias internas, com foco em revogação de acessos e conformidade com a LGPD.
 
----
+[Assista à demonstração do protótipo](https://www.youtube.com/watch?v=PMpv7b5ozpk)
 
-## Funcionalidades
-- Login e autenticação via JWT.
-- Criação e gerenciamento de projetos de auditoria.
-- Upload e edição de documentos (texto e PDF parseado).
-- Execução de análise de conformidade (MVP).
-- Visualização de relatórios e evidências.
-- Infraestrutura com Docker Compose (API, Frontend e PostgreSQL).
+## O que o protótipo faz
 
----
+1. Cria projetos de auditoria e reúne os documentos de cada projeto.
+2. Importa arquivos PDF com texto selecionável, DOCX e TXT, ou recebe texto digitado. O conteúdo importado pode ser revisado antes da análise.
+3. Analisa um documento por vez ou todos os documentos de um projeto. O modo local usa regras e palavras-chave para sinalizar possíveis dados pessoais e temas de conformidade.
+4. Exibe um resumo e uma classificação preliminar de risco por documento. Quando configurada, a integração com a OpenAI pode complementar a análise local.
 
-## Tecnologias
-- *Backend*: Python 3.11, FastAPI, SQLAlchemy.  
-- *Frontend*: Streamlit.  
-- *Banco de Dados*: PostgreSQL 16.  
-- *Infraestrutura*: Docker e Docker Compose.  
-- *IA / NLP*: Estrutura planejada para embeddings e análise semântica.  
-- *Autenticação*: JWT.  
+Os resultados servem como apoio à revisão humana. Use documentos fictícios na demonstração, especialmente com a integração externa habilitada, pois ela envia conteúdo dos documentos ao provedor.
 
----
+## Arquitetura
 
-## Como rodar com Docker
-Pré-requisitos: Docker e Docker Compose instalados.
+| Camada | Tecnologias e responsabilidade |
+| --- | --- |
+| Interface | Streamlit para gerenciar projetos, revisar documentos e visualizar resultados |
+| API | Python 3.11 e FastAPI, com login de demonstração via JWT |
+| Persistência | SQLAlchemy e PostgreSQL 16 |
+| Execução local | Docker Compose para subir a interface, a API e o banco |
+
+- [`app/routers/`](app/routers/) reúne as rotas de autenticação, projetos, documentos, análises e relatórios.
+- [`app/services/analyses.py`](app/services/analyses.py) implementa a análise local e a integração opcional com o modelo de linguagem.
+- [`frontend/streamlit_app.py`](frontend/streamlit_app.py) contém a interface do protótipo.
+
+## Como executar localmente
+
+Instale o Git e o Docker com Compose. No terminal, clone e abra o repositório.
 
 ```bash
-git clone https://github.com/seu-repo/auditoria-tcc.git
-cd auditoria-tcc
+git clone https://github.com/Gutyk/Auditoria-TCC.git
+cd Auditoria-TCC
+```
+
+Crie um arquivo `.env` na raiz com a configuração do banco local e uma chave JWT própria. Você pode gerar a chave com `openssl rand -hex 32`.
+
+```dotenv
+DATABASE_URL=postgresql+psycopg2://postgres:postgres@db:5432/tcc_auditoria
+SECRET_KEY=substitua_pela_sua_chave_gerada
+```
+
+Para testar o refinamento com IA, adicione `OPENAI_API_KEY` ao `.env`. `OPENAI_MODEL` é opcional. Sem a chave de API, a análise local continua disponível.
+
+```bash
 docker compose up --build
 ```
 
-<<<<<<< HEAD
-caso não de build
-``` bash
-docker compose down -v
-docker compose up --build
-```
+| Acesso | Endereço |
+| --- | --- |
+| Interface Streamlit | [localhost:8501](http://localhost:8501) |
+| Documentação interativa da API | [localhost:8000/docs](http://localhost:8000/docs) |
 
-A API ficará em http://localhost:8000/docs
-=======
-Acessos locais:
->>>>>>> 9424789dc98a106cc14d69e519f24a237aa84d36
+Entre na interface com `admin@local` e senha `admin`, criados para a demonstração local. Crie um projeto, adicione um documento fictício e execute a análise.
 
-    API: http://localhost:8000/docs
-
-Frontend: http://localhost:8501
-Credenciais padrão
-
-Usuário inicial para acesso ao sistema:
-
-    Usuário: admin@local
-
-    Senha: admin
-
-Essas credenciais são criadas automaticamente ao iniciar o sistema e podem ser usadas para autenticar no frontend e gerar tokens no backend.
-Cloud
-
-O projeto foi desenvolvido para execução em ambiente local com Docker, mas está preparado para deploy em nuvem:
-
-    Banco de Dados: o PostgreSQL pode ser substituído por serviços gerenciados como AWS RDS, GCP Cloud SQL ou Azure Database.
-
-    API e Frontend: podem ser hospedados em ECS, AKS, GKE ou instâncias simples em EC2/VMs.
-
-Justificativa: por se tratar de um MVP acadêmico, a execução local foi priorizada para simplificação e redução de custos. A utilização de contêineres garante portabilidade, possibilitando migração direta para provedores de nuvem quando necessário, sem alterações significativas na aplicação.
+Para acompanhar a inicialização, use `docker compose logs -f db api`. Para encerrar os serviços preservando os dados do banco local, use `docker compose down`.
