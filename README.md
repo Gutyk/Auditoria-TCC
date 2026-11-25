@@ -57,3 +57,15 @@ docker compose up --build
 Entre na interface com `admin@local` e senha `admin`, criados para a demonstração local. Crie um projeto, adicione um documento fictício e execute a análise.
 
 Para acompanhar a inicialização, use `docker compose logs -f db api`. Para encerrar os serviços preservando os dados do banco local, use `docker compose down`.
+
+## Autoria e direitos
+
+Trabalho de Conclusão de Curso do Bacharelado em Sistemas de Informação do Centro Universitário FIAP, São Paulo, 2025.
+
+- Pedro Loscilha Sobral
+- Mateus Nuci
+- Gabriel Alves
+- Victor Augusto Vieira
+- Luis Gustavo Marques Martins
+
+Os direitos autorais do texto do [TCC](docs/auditoria-e-conformidade-tcc.pdf) são reservados aos seus autores.
