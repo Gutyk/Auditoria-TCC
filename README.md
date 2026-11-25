@@ -2,7 +2,8 @@
 
 Protótipo desenvolvido como Trabalho de Conclusão de Curso em Sistemas de Informação na FIAP. O projeto explora como a análise de documentos pode apoiar auditorias internas, com foco em revogação de acessos e conformidade com a LGPD.
 
-[Assista à demonstração do protótipo](https://www.youtube.com/watch?v=PMpv7b5ozpk)
+- [Leia o TCC completo em PDF](docs/auditoria-e-conformidade-tcc.pdf)
+- [Assista à demonstração do protótipo](https://www.youtube.com/watch?v=PMpv7b5ozpk)
 
 ## O que o protótipo faz
 
